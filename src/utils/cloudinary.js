@@ -8,7 +8,7 @@ cloudinary.config({
 }
 )
 
-const uploadOnCloudinary = async => (localFilePath){ // yha pr time lega to async bna diya
+const uploadOnCloudinary = async  (localFilePath) => { // yha pr time lega to async bna diya
     try {
         if (!localFilePath) return null;
         //upload the file on cloudinary
