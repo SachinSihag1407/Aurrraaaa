@@ -3,7 +3,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 const app = express();
 
-app.use(express.cors({
+app.use(cors({
     origin: process.env.CORS_ORIGIN,
     Credential : true
 }))
@@ -13,4 +13,7 @@ app.use(express.urlencoded({extended: true, limit:"16kb"}))
 app.use(express.static("public"))
 app.use(cookieParser())
 
+// yha router import krenge and 
+import router from "./routes/user.routes.js";
+app.use("/api/v1/users",router)
 export { app }
