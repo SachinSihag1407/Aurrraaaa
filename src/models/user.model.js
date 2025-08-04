@@ -16,7 +16,7 @@ const userSchema = new Schema(
             type: String,
             required: true,
             unique: true,
-            lowecase: true,
+            lowercase: true,
             trim: true,
         },
         fullName: {
@@ -53,8 +53,8 @@ const userSchema = new Schema(
 )
 
 userSchema.pre("save", async function (next) {
-    if (!this.isModified("passwod")) return next()
-    this.password = bcrpyt.hash(this.password, 10)
+    if (!this.isModified("password")) return next()
+    this.password = await bcrpyt.hash(this.password, 10)
     next()
 })
 
@@ -62,8 +62,8 @@ userSchema.methods.isPasswordCorrect = async function (password) {
     return await bcrpyt.compare(password, this.password)
 }
 
-userSchema.methods.generateAccessToken = async function () {
-    jwt.sign(
+userSchema.methods.generateAccessToken =  function () {
+    return jwt.sign(
         {
             _id: this._id,
             username: this.username,
@@ -75,13 +75,14 @@ userSchema.methods.generateAccessToken = async function () {
             expiresIn: process.env.ACCESS_TOKEN_EXPIRY
         }
     )
+    
 }
 
-userSchema.methods.generateRefreshToken = async function () {
-    jwt.sign(
+userSchema.methods.generateRefreshToken =  function () {
+    return jwt.sign(
         {
             _id: this._id,
-          
+
         },
         process.env.REFRESH_TOKEN_SECRET,
         {
